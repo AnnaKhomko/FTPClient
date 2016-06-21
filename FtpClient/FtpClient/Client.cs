@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Net;
 
@@ -41,12 +39,10 @@ using System.Net;
             byte[] buffer = new byte[bufferSize];
             try
             {
-                using (var response = (FtpWebResponse)request.GetResponse())
-                {
-                    using (var stream = response.GetResponseStream())
-                    {
-                        using (var fs = new FileStream(dest, FileMode.OpenOrCreate))
-                        {
+                var response = (FtpWebResponse)request.GetResponse();
+                var stream = response.GetResponseStream();
+                var fs = new FileStream(dest, FileMode.OpenOrCreate);
+                        
                             int readCount = stream.Read(buffer, 0, bufferSize);
 
                             while (readCount > 0)
@@ -57,11 +53,11 @@ using System.Net;
                                 fs.Write(buffer, 0, readCount);
                                 readCount = stream.Read(buffer, 0, bufferSize);
                             }
-                        }
-                    }
+                        
+                    
 
                     return response.StatusDescription;
-                }
+                
 
             }
 
@@ -87,21 +83,21 @@ using System.Net;
             request.KeepAlive = false;
             request.Method = WebRequestMethods.Ftp.ListDirectory;
 
-            using (var response = (FtpWebResponse)request.GetResponse())
-            {
+            var response = (FtpWebResponse)request.GetResponse();
 
-                using (var stream = response.GetResponseStream())
-                {
-                    using (var reader = new StreamReader(stream, true))
-                    {
+
+            var stream = response.GetResponseStream();
+
+            var reader = new StreamReader(stream, true);
+                    
                         while (!reader.EndOfStream)
                         {
                             list.Add(reader.ReadLine());
 
                         }
-                    }
-                }
-            }
+                    
+                
+            
 
             return list.ToArray();
         }
