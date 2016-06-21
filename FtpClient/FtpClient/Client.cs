@@ -34,14 +34,14 @@ using System.Net;
 
         public string DownloadFile(string source, string dest)
         {
-            var request = createRequest(combine(uri, source), WebRequestMethods.Ftp.DownloadFile);
+            FtpWebRequest request = createRequest(combine(uri, source), WebRequestMethods.Ftp.DownloadFile);
 
             byte[] buffer = new byte[bufferSize];
             try
             {
-                var response = (FtpWebResponse)request.GetResponse();
-                var stream = response.GetResponseStream();
-                var fs = new FileStream(dest, FileMode.OpenOrCreate);
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                Stream stream = response.GetResponseStream();
+                FileStream fs = new FileStream(dest, FileMode.OpenOrCreate);
                         
                             int readCount = stream.Read(buffer, 0, bufferSize);
 
@@ -74,7 +74,7 @@ using System.Net;
 
         public string[] ListDirectoryDetails()
         {
-            var list = new List<string>();
+            List<string> list = new List<string>();
 
             FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(this.uri);
             request.Credentials = new NetworkCredential(this.userName, this.password);
@@ -83,12 +83,12 @@ using System.Net;
             request.KeepAlive = false;
             request.Method = WebRequestMethods.Ftp.ListDirectory;
 
-            var response = (FtpWebResponse)request.GetResponse();
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
 
-            var stream = response.GetResponseStream();
+            Stream stream = response.GetResponseStream();
 
-            var reader = new StreamReader(stream, true);
+            StreamReader reader = new StreamReader(stream, true);
                     
                         while (!reader.EndOfStream)
                         {
@@ -107,7 +107,7 @@ using System.Net;
 
         private FtpWebRequest createRequest(string uri, string method)
         {
-            var r = (FtpWebRequest)WebRequest.Create(uri);
+            FtpWebRequest r = (FtpWebRequest)WebRequest.Create(uri);
 
             r.Credentials = new NetworkCredential(userName, password);
             r.Method = method;
