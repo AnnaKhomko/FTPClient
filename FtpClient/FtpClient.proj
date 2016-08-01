@@ -1,0 +1,10 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- Properties and items are deleted for clarity -->
+    <Import Project="$C:\Program Files (x86)\MSBuild\14.0\Bin\Microsoft.CSharp.targets" />
+    <ItemGroup>
+        <Binaries Include="*.dll;*.exe"/>
+    </ItemGroup>
+    <Target Name="AfterBuild">
+        <Exec Command="YourCustomTasks.exe %(Binaries.Identity)" />
+    </Target>
+</Project>
