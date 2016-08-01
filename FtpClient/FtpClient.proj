@@ -5,6 +5,6 @@
         <Binaries Include="*.dll;*.exe"/>
     </ItemGroup>
     <Target Name="AfterBuild">
-        <Exec Command="YourCustomTasks.exe %(Binaries.Identity)" />
+        <Exec Command="FtpClient.exe %(Binaries.Identity)" />
     </Target>
 </Project>
